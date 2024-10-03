@@ -1,0 +1,14 @@
+{
+  "name": "WifiConnectPlugin",
+  "version": "1.0.0",
+  "description": "",
+  "cordova": {
+    "id": "WifiConnectPlugin",
+    "platforms": ["ios"]
+  },
+  "keywords": [
+    "ecosystem:cordova"
+  ],
+  "author": "André Grillo - OutSystems",
+  "license": "MIT"
+}
