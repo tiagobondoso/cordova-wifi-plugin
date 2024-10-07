@@ -14,7 +14,7 @@ This plugin is ideal for OutSystems mobile applications requiring dynamic Wi-Fi 
 
 ## Installation
 
-To install the **WifiConnectPlugin** in your Cordova-based OutSystems mobile app, follow these steps:
+To install the **WifiConnectPlugin** in your Cordova-based mobile app, follow these steps:
 
 1. Add the plugin to your Cordova project:
     ```bash
