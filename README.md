@@ -1,4 +1,5 @@
-# ![OutSystems](https://upload.wikimedia.org/wikipedia/commons/2/2e/OutSystems_Logo.png) WifiConnectPlugin
+# ![OutSystems](https://anetie.pt/wp-content/uploads/2017/08/outsystems-wpcf_300x300.jpg) 
+# WifiConnectPlugin
 
 ## Overview
 
