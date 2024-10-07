@@ -14,13 +14,16 @@
 				<param name="ios-package" value="WifiConnectPlugin" />
 			</feature>
 		</config-file>
+
 		<!-- Add Hotspot Configuration Capability -->
-        <config-file target="Entitlements-Release.plist" parent="com.apple.developer.networking.HotspotConfiguration">
-            <true/>
-        </config-file>
-        <config-file target="Entitlements-Debug.plist" parent="com.apple.developer.networking.HotspotConfiguration">
-            <true/>
-        </config-file>
+		<config-file target="**/Entitlements-Debug.plist" parent="com.apple.developer.networking.HotspotConfiguration">
+				<true/>
+		</config-file>
+		<config-file target="**/Entitlements-Release.plist" parent="com.apple.developer.networking.HotspotConfiguration">
+				<true/>
+		</config-file>
+		<!-- end Hotspot Configuration Capability -->
+		
 		<source-file src="src/ios/WifiConnectPlugin.swift" />
 	</platform>
 </plugin>
