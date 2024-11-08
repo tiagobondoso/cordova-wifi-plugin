@@ -1,7 +1,7 @@
 import NetworkExtension
 import Foundation
 
-@objc(WifiConnectPlugin) 
+@objc(WifiConnectPlugin)
 class WifiConnectPlugin: CDVPlugin {
     
     @objc(connectToWifi:)
@@ -15,14 +15,26 @@ class WifiConnectPlugin: CDVPlugin {
             return
         }
         
-        // Create Wi-Fi configuration
-        let configuration = NEHotspotConfiguration(ssid: ssid, passphrase: password, isWEP: false)
-        
-        NEHotspotConfigurationManager.shared.apply(configuration) { (error) in
-            if let error = error {
-                self.commandDelegate.send(CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: error.localizedDescription), callbackId: command.callbackId)
-            } else {
-                self.commandDelegate.send(CDVPluginResult(status: CDVCommandStatus_OK, messageAs: "Connected to \(ssid)"), callbackId: command.callbackId)
+        if password.isEmpty {
+            // Create Wi-Fi configuration without password
+            let configuration = NEHotspotConfiguration(ssid: ssid)
+            NEHotspotConfigurationManager.shared.apply(configuration) { (error) in
+                if let error = error {
+                    self.commandDelegate.send(CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: error.localizedDescription), callbackId: command.callbackId)
+                } else {
+                    self.commandDelegate.send(CDVPluginResult(status: CDVCommandStatus_OK, messageAs: "Connected to \(ssid)"), callbackId: command.callbackId)
+                }
+            }
+        } else {
+            // Create Wi-Fi configuration
+            let configuration = NEHotspotConfiguration(ssid: ssid, passphrase: password, isWEP: false)
+            
+            NEHotspotConfigurationManager.shared.apply(configuration) { (error) in
+                if let error = error {
+                    self.commandDelegate.send(CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: error.localizedDescription), callbackId: command.callbackId)
+                } else {
+                    self.commandDelegate.send(CDVPluginResult(status: CDVCommandStatus_OK, messageAs: "Connected to \(ssid)"), callbackId: command.callbackId)
+                }
             }
         }
     }
