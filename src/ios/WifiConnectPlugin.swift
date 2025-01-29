@@ -41,7 +41,14 @@ class WifiConnectPlugin: CDVPlugin {
 
     @objc(getConnectedSSID:)
     func getConnectedSSID(command: CDVInvokedUrlCommand) {
-        let result = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: "GetConnectedSSID function available.")
-        self.commandDelegate.send(result, callbackId: command.callbackId)
+        NEHotspotNetwork.fetchCurrent { (currentNetwork) in
+                if let ssid = currentNetwork?.ssid {
+                    let result = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: ssid)
+                    self.commandDelegate.send(result, callbackId: command.callbackId)
+                } else {
+                    let result = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: "Could not retrieve SSID.")
+                    self.commandDelegate.send(result, callbackId: command.callbackId)
+                }
+            }
     }
 }
