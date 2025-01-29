@@ -38,4 +38,9 @@ class WifiConnectPlugin: CDVPlugin {
             }
         }
     }
+
+    @obj(getConnectedSSID:)
+    func getConnectedSSID() {
+        self.commandDelegate.send(CDVPluginResult(status: CDVCommandStatus_OK, messageAs: "GetConnectedSSID function available."), callbackId: command.callbackId)
+    }
 }
