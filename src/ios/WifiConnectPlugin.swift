@@ -66,4 +66,5 @@ class WifiConnectPlugin: CDVPlugin {
         self.commandDelegate.send(result, callbackId: command.callbackId)
     }
 
+
 }
