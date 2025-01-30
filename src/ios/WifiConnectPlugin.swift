@@ -54,18 +54,13 @@ class WifiConnectPlugin: CDVPlugin {
 
     @objc(hasNetworkExtension:)
     func hasNetworkExtension(command: CDVInvokedUrlCommand) {
-        var hasExtension = false
-
-        if #available(iOS 14.0, *) {
-            // Garante que não vai crashar se a API não for suportada
-            if let _ = NEHotspotNetwork.fetchCurrent() {
-                hasExtension = true
-            }
-        }
+        let entitlements = Bundle.main.infoDictionary?["com.apple.developer.networking.HotspotHelper"]
+        let hasExtension = (entitlements != nil)
 
         let result = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: hasExtension)
         self.commandDelegate.send(result, callbackId: command.callbackId)
     }
+
 
 
 }
