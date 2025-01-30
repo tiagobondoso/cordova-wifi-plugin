@@ -57,6 +57,7 @@ class WifiConnectPlugin: CDVPlugin {
         var hasExtension = false
 
         if #available(iOS 14.0, *) {
+            // Garante que não vai crashar se a API não for suportada
             if let _ = NEHotspotNetwork.fetchCurrent() {
                 hasExtension = true
             }
