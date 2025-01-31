@@ -39,28 +39,19 @@ class WifiConnectPlugin: CDVPlugin {
         }
     }
 
-    @objc(getConnectedSSID:)
-        func getConnectedSSID(command: CDVInvokedUrlCommand) {
-            NEHotspotNetwork.fetchCurrent { (currentNetwork) in
-                    if let ssid = currentNetwork?.ssid {
-                        let result = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: ssid)
-                        self.commandDelegate.send(result, callbackId: command.callbackId)
-                    } else {
-                        let result = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: "Could not retrieve SSID.")
-                        self.commandDelegate.send(result, callbackId: command.callbackId)
-                    }
+    @objc(getConfiguredSSIDs:)
+        func getConfiguredSSIDs(command: CDVInvokedUrlCommand) {
+            NEHotspotConfigurationManager.shared.getConfiguredSSIDs { (ssids) in
+                // Check if ssids list is not empty or nil.
+                guard let ssids = ssids, !ssids.isEmpty else {
+                    let result = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: "No configured SSIDs found.")
+                    self.commandDelegate.send(result, callbackId: command.callbackId)
+                    return
                 }
-    }
-
-    @objc(hasNetworkExtension:)
-    func hasNetworkExtension(command: CDVInvokedUrlCommand) {
-        let entitlements = Bundle.main.infoDictionary?["com.apple.developer.networking.HotspotHelper"]
-        let hasExtension = (entitlements != nil)
-
-        let result = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: hasExtension)
-        self.commandDelegate.send(result, callbackId: command.callbackId)
-    }
-
-
-
+                
+                // Send the list of configured SSIDs as a success response.
+                let result = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: ssids)
+                self.commandDelegate.send(result, callbackId: command.callbackId)
+            }
+        }
 }

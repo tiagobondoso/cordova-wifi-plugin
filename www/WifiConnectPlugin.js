@@ -4,10 +4,6 @@ exports.connectToWifi = function (ssid, password, success, error) {
     exec(success, error, 'WifiConnectPlugin', 'connectToWifi', [ssid, password]);
 };
 
-exports.getConnectedSSID = function (success, error) {
-    exec(success, error, 'WifiConnectPlugin', 'getConnectedSSID');
-};
-
-exports.hasNetworkExtension = function (success, error) {
-    exec(success, error, 'WifiConnectPlugin', 'hasNetworkExtension');
+exports.getConfiguredSSIDs = function (success, error) {
+    exec(success, error, 'WifiConnectPlugin', 'getConfiguredSSIDs', []);
 };
