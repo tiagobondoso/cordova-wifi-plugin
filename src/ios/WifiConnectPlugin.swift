@@ -38,19 +38,19 @@ class WifiConnectPlugin: CDVPlugin {
             }
         }
     }
-
+    
     @objc(getConfiguredSSIDs:)
     func getConfiguredSSIDs(command: CDVInvokedUrlCommand) {
-        NEHotspotConfigurationManager.shared.getConfiguredSSIDs { (ssids) in
-            let ssids = ssid 
-            if ssids.isEmpty {
-                let result = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: "No configured SSIDs found.")
-                self.commandDelegate.send(result, callbackId: command.callbackId)
-                return
+        if #available(iOS 14.0, *) {
+            NEHotspotConfigurationManager.shared.getConfiguredSSIDs { (ssids) in
+                if ssids.isEmpty {
+                    self.commandDelegate.send(CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: "No configured SSIDs found."), callbackId: command.callbackId)
+                } else {
+                    self.commandDelegate.send(CDVPluginResult(status: CDVCommandStatus_OK, messageAs: ssids), callbackId: command.callbackId)
+                }
             }
-
-            let result = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: ssids)
-            self.commandDelegate.send(result, callbackId: command.callbackId)
+        } else {
+            self.commandDelegate.send(CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: "This feature is only available on iOS 14 and later."), callbackId: command.callbackId)
         }
     }
 }
