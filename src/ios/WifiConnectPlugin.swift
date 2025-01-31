@@ -38,15 +38,19 @@ class WifiConnectPlugin: CDVPlugin {
             }
         }
     }
-    
+        
     @objc(getConfiguredSSIDs:)
         func getConfiguredSSIDs(command: CDVInvokedUrlCommand) {
             NEHotspotConfigurationManager.shared.getConfiguredSSIDs { (ssids) in
-                if ssids.isEmpty {
-                    self.commandDelegate.send(CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: "No configured SSIDs found."), callbackId: command.callbackId)
+                if let ssids = ssids {
+                    if ssids.isEmpty {
+                        self.commandDelegate.send(CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: "No configured SSIDs found."), callbackId: command.callbackId)
+                    } else {
+                        let ssidListString = ssids.joined(separator: ", ")
+                        self.commandDelegate.send(CDVPluginResult(status: CDVCommandStatus_OK, messageAs: ssidListString), callbackId: command.callbackId)
+                    }
                 } else {
-                    let ssidListString = ssids.joined(separator: ", ")
-                    self.commandDelegate.send(CDVPluginResult(status: CDVCommandStatus_OK, messageAs: ssidListString), callbackId: command.callbackId)
+                    self.commandDelegate.send(CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: "Failed to retrieve SSIDs."), callbackId: command.callbackId)
                 }
             }
         }
